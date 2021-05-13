@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import notify from '../../services/notify';
 import contactsActions from './contactsActions';
 const {
   fetchContactsRequest,
@@ -13,39 +13,18 @@ const {
   deleteContactError,
 } = contactsActions;
 
-const notify = (message = 'error') =>
-  toast.error(message, {
-    position: 'top-center',
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-
 const checkIfContactExists = (contacts, newContact) => {
   const contactFound = contacts.find(
     contact => contact.name.toLowerCase() === newContact.name.toLowerCase(),
   );
   if (contactFound !== undefined) {
-    // const notify = () =>
-    //   toast.error(`${newContact.name} is already in contacts`, {
-    //     position: 'top-center',
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   });
     notify(`${newContact.name} is already in contacts`);
     return true;
   }
   return false;
 };
 
-axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
+//axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 const fetchContacts = () => async dispatch => {
   dispatch(fetchContactsRequest());

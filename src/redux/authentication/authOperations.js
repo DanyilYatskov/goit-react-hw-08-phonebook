@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import notify from '../../services/notify';
 import authActions from './authActions';
 const {
   registerRequest,
@@ -16,7 +16,7 @@ const {
   getCurrentUserError,
 } = authActions;
 
-axios.defaults.baseURL = 'https://connections-api.herokuapp.com/users';
+//axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
 
 const token = {
   set(token) {
@@ -40,10 +40,11 @@ const register = userInfo => async dispatch => {
   dispatch(registerRequest());
 
   try {
-    const response = await axios.post('/signup', userInfo);
+    const response = await axios.post('/users/signup', userInfo);
     token.set(response.data.token);
     dispatch(registerSuccess(response.data));
   } catch (error) {
+    notify(error.message);
     dispatch(registerError(error.message));
   }
 };
@@ -51,10 +52,11 @@ const register = userInfo => async dispatch => {
 const logIn = userInfo => async dispatch => {
   dispatch(loginRequest());
   try {
-    const { data } = await axios.post('/login', userInfo);
+    const { data } = await axios.post('/users/login', userInfo);
     token.set(data.token);
     dispatch(loginSuccess(data));
   } catch (error) {
+    notify(error.message);
     dispatch(loginError(error.message));
   }
 };
@@ -62,10 +64,11 @@ const logIn = userInfo => async dispatch => {
 const logOut = () => async dispatch => {
   dispatch(logoutRequest());
   try {
-    await axios.post('/logout');
+    await axios.post('/users/logout');
     token.unset();
     dispatch(logoutSuccess());
   } catch (error) {
+    notify(error.message);
     dispatch(logoutError(error.message));
   }
 };
@@ -84,10 +87,11 @@ const getCurrentUser = () => async (dispatch, getState) => {
   dispatch(getCurrentUserRequest());
 
   try {
-    const { data } = await axios.get('/current');
+    const { data } = await axios.get('/users/current');
 
     dispatch(getCurrentUserSuccess(data));
   } catch (error) {
+    notify(error.message);
     dispatch(getCurrentUserError(error.message));
   }
 };
