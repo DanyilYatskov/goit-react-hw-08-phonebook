@@ -1,12 +1,16 @@
 .appBar {
+  display: flex;
+  justify-content: space-between;
   top: 0;
   left: 0;
+  margin-left: auto;
+  margin-right: auto;
   position: sticky;
   z-index: 1100;
   align-items: center;
   min-height: 64px;
-  padding-right: 24px;
-  padding-left: 24px;
+  padding-right: calc(100% - 1334px - 293px);
+  padding-left: calc(100% - 1334px - 293px);
   padding-top: 18px;
   padding-bottom: 18px;
   background-color: #333333;

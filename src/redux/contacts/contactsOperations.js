@@ -13,28 +13,39 @@ const {
   deleteContactError,
 } = contactsActions;
 
+const notify = (message = 'error') =>
+  toast.error(message, {
+    position: 'top-center',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
 const checkIfContactExists = (contacts, newContact) => {
   const contactFound = contacts.find(
     contact => contact.name.toLowerCase() === newContact.name.toLowerCase(),
   );
   if (contactFound !== undefined) {
-    const notify = () =>
-      toast.error(`${newContact.name} is already in contacts`, {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    notify();
+    // const notify = () =>
+    //   toast.error(`${newContact.name} is already in contacts`, {
+    //     position: 'top-center',
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    notify(`${newContact.name} is already in contacts`);
     return true;
   }
   return false;
 };
 
-axios.defaults.baseURL = 'http://localhost:4040';
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
 const fetchContacts = () => async dispatch => {
   dispatch(fetchContactsRequest());
@@ -42,6 +53,7 @@ const fetchContacts = () => async dispatch => {
     const { data } = await axios.get('/contacts');
     dispatch(fetchContactsSuccess(data));
   } catch (error) {
+    notify(error.message);
     dispatch(fetchContactsError(error));
   }
 };
@@ -61,7 +73,10 @@ const addNewContact = (name, number) => dispatch => {
         .post('/contacts', newContact)
         .then(({ data }) => dispatch(addContactSuccess(data)));
     })
-    .catch(error => dispatch(addContactError(error)));
+    .catch(error => {
+      notify(error.message);
+      dispatch(addContactError(error));
+    });
 };
 
 const deleteContact = id => async dispatch => {
@@ -70,6 +85,7 @@ const deleteContact = id => async dispatch => {
     await axios.delete(`/contacts/${id}`);
     dispatch(deleteContactSuccess(id));
   } catch (error) {
+    notify(error.message);
     dispatch(deleteContactError(error));
   }
 };

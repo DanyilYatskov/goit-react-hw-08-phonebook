@@ -1,9 +1,9 @@
-const getIsAuthenticated = state => state.authentication.isAuthenticated;
+const getIfLoggedIn = state => state.authentication.loggedIn;
 
 const getUserName = state => state.authentication.user.name;
 
 const authSelectors = {
-  getIsAuthenticated,
+  getIfLoggedIn,
   getUserName,
 };
 

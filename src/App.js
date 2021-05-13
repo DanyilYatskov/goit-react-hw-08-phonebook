@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 //import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,6 +11,14 @@ import ContactsList from './components/ContactList/';
 import Notification from './components/Notification/';
 import Filter from './components/Filter/';
 import Loader from './components/Loader';
+import AppBar from './components/AppBar';
+import Container from './components/Container';
+import PrivateRoute from './components/PrivateRoute';
+import PublicRoute from './components/PublicRoute';
+
+const HomeView = lazy(() => import('./views/HomeView'));
+const RegisterView = lazy(() => import('./views/RegisterView'));
+const LoginView = lazy(() => import('./views/LoginView'));
 
 class App extends Component {
   componentDidMount() {
@@ -20,22 +28,27 @@ class App extends Component {
     const { contacts, isLoading } = this.props;
 
     return (
-      <div className="App">
-        <Section title="Phonebook">
-          <Form />
-        </Section>
+      <>
+        <AppBar />
+        <Container>
+          <div className="App">
+            <Section title="Phonebook">
+              <Form />
+            </Section>
 
-        {contacts.length > 0 ? (
-          <Section title="Contacts">
-            <Filter />
-            {isLoading && <Loader />}
-            <ContactsList />
-          </Section>
-        ) : (
-          <Notification message="Contacts are missing" />
-        )}
-        <ToastContainer />
-      </div>
+            {contacts.length > 0 ? (
+              <Section title="Contacts">
+                <Filter />
+                {isLoading && <Loader />}
+                <ContactsList />
+              </Section>
+            ) : (
+              <Notification message="Contacts are missing" />
+            )}
+            <ToastContainer />
+          </div>
+        </Container>
+      </>
     );
   }
 }

@@ -1,14 +1,22 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Navigation from './Navigation';
+import UserMenu from './UserMenu';
+import AuthNav from './AuthNav';
+import { authSelectors } from '../../redux/authentication';
 import styles from './appBar.module.scss';
 
-const AppBar = () => {
+const AppBar = ({ loggedIn }) => {
   return (
     <header className={styles.appBar}>
       <Navigation />
+      {loggedIn ? <UserMenu /> : <AuthNav />}
     </header>
   );
 };
 
-export default AppBar;
+const mapStateToProps = state => ({
+  loggedIn: authSelectors.getIfLoggedIn(state),
+});
+
+export default connect(mapStateToProps)(AppBar);
