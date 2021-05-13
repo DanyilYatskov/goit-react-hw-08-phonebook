@@ -4,7 +4,6 @@ const styles = {
   container: {
     minHeight: 'calc(100vh - 50px)',
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
@@ -17,7 +16,7 @@ const styles = {
 const HomeView = () => (
   <div style={styles.container}>
     <h1 style={styles.title}>
-      Hello world!!{' '}
+      Hello!This is your personal Phonebook.{' '}
       <span role="img" aria-label="Иконка приветствия">
         💁‍♀️
       </span>

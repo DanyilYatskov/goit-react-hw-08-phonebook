@@ -22,7 +22,7 @@ const PrivateRoute = ({
 );
 
 const mapStateToProps = state => ({
-  loggedIn: authSelectors.getIsAuthenticated(state),
+  loggedIn: authSelectors.getIfLoggedIn(state),
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

@@ -3,62 +3,62 @@ import React, { Component, Suspense, lazy } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux';
-import contactsSelectors from './redux/contacts/contactsSelectors';
-import contactsOperations from './redux/contacts/contactsOperations';
-import Form from './components/Form';
-import Section from './components/Section/';
-import ContactsList from './components/ContactList/';
-import Notification from './components/Notification/';
-import Filter from './components/Filter/';
-import Loader from './components/Loader';
+import { authOperations } from './redux/authentication';
 import AppBar from './components/AppBar';
 import Container from './components/Container';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
+import Loader from './components/Loader';
+import { Route, Switch } from 'react-router';
+import routes from './routes';
 
 const HomeView = lazy(() => import('./views/HomeView'));
 const RegisterView = lazy(() => import('./views/RegisterView'));
 const LoginView = lazy(() => import('./views/LoginView'));
+const ContactsView = lazy(() => import('./views/ContactsView'));
+const NotFoundView = lazy(() => import('./views/NotFoundView'));
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchContacts();
+    this.props.onGetCurrentUser();
   }
   render() {
-    const { contacts, isLoading } = this.props;
-
     return (
       <>
         <AppBar />
         <Container>
-          <div className="App">
-            <Section title="Phonebook">
-              <Form />
-            </Section>
-
-            {contacts.length > 0 ? (
-              <Section title="Contacts">
-                <Filter />
-                {isLoading && <Loader />}
-                <ContactsList />
-              </Section>
-            ) : (
-              <Notification message="Contacts are missing" />
-            )}
-            <ToastContainer />
-          </div>
+          <Suspense fallback={<Loader />}>
+            <Switch>
+              <PublicRoute exact path={routes.homePage} component={HomeView} />
+              <PublicRoute
+                path={routes.registerPage}
+                restricted
+                redirectTo={routes.contactsPage}
+                component={RegisterView}
+              />
+              <PublicRoute
+                path={routes.loginPage}
+                restricted
+                redirectTo={routes.contactsPage}
+                component={LoginView}
+              />
+              <PrivateRoute
+                path={routes.contactsPage}
+                redirectTo={routes.loginPage}
+                component={ContactsView}
+              />
+              {/* <Route path={routes.contactsPage} component={ContactsView} /> */}
+              <Route component={NotFoundView} />
+            </Switch>
+          </Suspense>
         </Container>
       </>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  contacts: contactsSelectors.getContacts(state),
-  isLoading: contactsSelectors.getLoading(state),
-});
+const mapDispatchToProps = {
+  onGetCurrentUser: authOperations.getCurrentUser,
+};
 
-const mapDispatchToProps = dispatch => ({
-  fetchContacts: () => dispatch(contactsOperations.fetchContacts()),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);
