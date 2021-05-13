@@ -7,6 +7,7 @@ const styles = {
   container: {
     display: 'flex',
     alignItems: 'center',
+    color: '#ff6b08',
   },
   avatar: {
     marginRight: 4,

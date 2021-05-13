@@ -11,6 +11,16 @@ const styles = {
     flexDirection: 'column',
     marginBottom: 15,
   },
+  input: {
+    display: 'inline-block',
+    width: '100%',
+    font: 'inherit',
+    outline: 'none',
+    paddingLeft: '4px',
+    paddingRight: '4px',
+    backgroundColor: '#333333',
+    color: '#a9a9a9',
+  },
 };
 
 class RegisterView extends Component {
@@ -47,6 +57,7 @@ class RegisterView extends Component {
           <label style={styles.label}>
             Name
             <input
+              style={styles.input}
               type="text"
               name="name"
               value={name}
@@ -57,6 +68,7 @@ class RegisterView extends Component {
           <label style={styles.label}>
             E-mail
             <input
+              style={styles.input}
               type="email"
               name="email"
               value={email}
@@ -67,6 +79,7 @@ class RegisterView extends Component {
           <label style={styles.label}>
             Password
             <input
+              style={styles.input}
               type="password"
               name="password"
               value={password}

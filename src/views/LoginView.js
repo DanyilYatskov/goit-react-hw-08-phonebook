@@ -11,6 +11,16 @@ const styles = {
     flexDirection: 'column',
     marginBottom: 15,
   },
+  input: {
+    display: 'inline-block',
+    width: '100%',
+    font: 'inherit',
+    outline: 'none',
+    paddingLeft: '4px',
+    paddingRight: '4px',
+    backgroundColor: '#333333',
+    color: '#a9a9a9',
+  },
 };
 
 class LoginView extends Component {
@@ -41,11 +51,12 @@ class LoginView extends Component {
         <form
           onSubmit={this.handleSubmit}
           style={styles.form}
-          autoComplete="off"
+          autoComplete="nope"
         >
           <label style={styles.label}>
             E-mail
             <input
+              style={styles.input}
               type="email"
               name="email"
               value={email}
@@ -56,6 +67,7 @@ class LoginView extends Component {
           <label style={styles.label}>
             Password
             <input
+              style={styles.input}
               type="password"
               name="password"
               value={password}

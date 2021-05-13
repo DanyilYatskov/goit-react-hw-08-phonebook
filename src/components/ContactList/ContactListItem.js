@@ -15,6 +15,7 @@ const ContactListItem = ({
       <p className={styles.text}>
         {contactName} : {contactNumber}
       </p>
+
       <button
         type="button"
         className={styles.button}

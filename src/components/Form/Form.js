@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
 import contactsOperations from '../../redux/contacts/contactsOperations';
 import Input from './Input/';
-import Button from './Button/';
+import Button from '../Button';
 import styles from './form.module.scss';
 
 class Form extends Component {
@@ -54,7 +54,12 @@ class Form extends Component {
           handleChange={this.handleChange}
         />
 
-        <Button name="Add Contact" type="Submit" />
+        <Button
+          name="Add Contact"
+          type="Submit"
+          padding="8px 16px"
+          font-size="18px"
+        />
       </form>
     );
   }
