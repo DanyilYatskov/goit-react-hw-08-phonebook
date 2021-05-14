@@ -15,12 +15,7 @@ const styles = {
 
 const HomeView = () => (
   <div style={styles.container}>
-    <h1 style={styles.title}>
-      Hello!This is your personal Phonebook.{' '}
-      <span role="img" aria-label="Иконка приветствия">
-        💁‍♀️
-      </span>
-    </h1>
+    <h1 style={styles.title}>Hello!This is your personal Phonebook. </h1>
   </div>
 );
 

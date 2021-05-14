@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { authOperations } from '../redux/authentication';
+import Button from '../components/Button';
 
 const styles = {
   form: {
@@ -86,8 +87,7 @@ class RegisterView extends Component {
               onChange={this.handleChange}
             />
           </label>
-
-          <button type="submit">Register</button>
+          <Button name="Register" type="submit" />
         </form>
       </div>
     );

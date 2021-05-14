@@ -9,7 +9,14 @@ import Section from '../components/Section/';
 import ContactsList from '../components/ContactList/';
 import Notification from '../components/Notification/';
 import Filter from '../components/Filter/';
-import Loader from '../components/Loader';
+import ContactsLoader from '../components/ContactsLoader';
+
+const styles = {
+  loaderContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+};
 
 class ContactsView extends Component {
   componentDidMount() {
@@ -27,8 +34,10 @@ class ContactsView extends Component {
 
         {contacts.length > 0 ? (
           <Section title="Contacts">
-            <Filter />
-            {isLoading && <Loader />}
+            <div style={styles.loaderContainer}>
+              <Filter />
+              {isLoading && <ContactsLoader />}
+            </div>
             <ContactsList />
           </Section>
         ) : (
